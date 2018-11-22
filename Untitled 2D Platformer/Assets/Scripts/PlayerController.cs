@@ -13,10 +13,13 @@ public class PlayerController : MonoBehaviour {
 
     private Rigidbody2D myRigidbody;
 
+    private Animator myAnim;
+
 
 	// Use this for initialization
 	void Start () {
         myRigidbody = GetComponent<Rigidbody2D>();
+        myAnim = GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
@@ -27,9 +30,11 @@ public class PlayerController : MonoBehaviour {
 		if(Input.GetAxisRaw ("Horizontal") > 0f)
         {
             myRigidbody.velocity = new Vector3(moveSpeed, myRigidbody.velocity.y, 0f);
+            transform.localScale = new Vector3(1f, 1f, 1f);
         } else if (Input.GetAxisRaw ("Horizontal") < 0f)
         {
             myRigidbody.velocity = new Vector3(-moveSpeed, myRigidbody.velocity.y, 0f);
+            transform.localScale = new Vector3(-1f, 1f, 1f);
         } else
         {
             myRigidbody.velocity = new Vector3(0f, myRigidbody.velocity.y, 0f);
@@ -39,5 +44,8 @@ public class PlayerController : MonoBehaviour {
         {
             myRigidbody.velocity = new Vector3(myRigidbody.velocity.x, jumpSpeed, 0f);
         }
+
+        myAnim.SetFloat("Speed", Mathf.Abs(myRigidbody.velocity.x));
+        myAnim.SetBool("Grounded", isGrounded);
     }
 }
